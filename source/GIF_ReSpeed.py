@@ -6,8 +6,8 @@ import os.path
 def reSpeed(path, fps):   
     
     fps = min(max(fps, 1) , 50)
-    interval = int(100 / fps)
-    intervalBytes = interval.to_bytes(1, "little")
+    deviation=0.5
+    interval = int(100 / fps)  
     
 
     try:
@@ -49,7 +49,11 @@ def reSpeed(path, fps):
                     byte = file.read(1)
                     if byte == b'\x04':
                         file.seek(1, os.SEEK_CUR)
-                        file.write(intervalBytes)
+                        deviation+=(100.0 / fps)-interval
+                        file.write(int(interval+deviation).to_bytes(1, "little"))
+                        if deviation>=1:
+                            deviation=deviation-1
+                        
             byte = file.read(1)
     
     except Exception as e:
@@ -74,6 +78,7 @@ runOptions = []
 
 print("GIF ReSpeed")
 print("Developed by LarsKDev")
+print("modify by yuangBi")
 print("Version 1.0.3 | 5 Mar 2022")
 print("---------------------------")
 
