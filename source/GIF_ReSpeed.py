@@ -52,7 +52,7 @@ def reSpeed(path, fps):
                         deviation+=(100.0 / fps)-interval
                         file.write(int(interval+deviation).to_bytes(1, "little"))
                         if deviation>=1:
-                            deviation=deviation-1
+                            deviation=deviation-int(deviation)
                         
             byte = file.read(1)
     
